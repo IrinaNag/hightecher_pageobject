@@ -1,9 +1,9 @@
 package com.elpisor.hq.tests.ui_tests;
 
 import com.elpisor.hq.model.UserCreds;
-import com.elpisor.hq.pages.Header;
 import com.elpisor.hq.pages.LoginPage;
 import com.elpisor.hq.tests.StaticProvider;
+import com.elpisor.hq.tests.TestBase;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -12,7 +12,7 @@ import java.util.List;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-public class LoginTest extends UiTestBase {
+public class LoginTest extends TestBase {
 
     LoginPage loginPage;
 

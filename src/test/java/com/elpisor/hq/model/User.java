@@ -2,19 +2,27 @@ package com.elpisor.hq.model;
 
 import lombok.*;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Builder
 @ToString
+@EqualsAndHashCode(exclude = "password")
 public class User {
-    private String username;
-    private String name;
-    private String surname;
+    private Boolean active;
+    private Integer degree;
     private String email;
-    private String phone;
+    private Location[] hiringRegions;
+    private Location homeLocation;
+    private String name;
+    private Integer notificationBy;
+    private NotificationTime notificationTime;
     private String password;
-    private String password_confirmation;
+    private String phone;
+    private Skill skills;
+    private String surname;
+    private String timeZone;
+    private String username;
 
 }

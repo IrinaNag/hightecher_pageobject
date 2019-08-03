@@ -3,6 +3,11 @@ package com.elpisor.hq.app;
 import com.elpisor.hq.pages.Header;
 import com.elpisor.hq.pages.LoginPage;
 import com.elpisor.hq.pages.RegistrationPage;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -18,31 +23,39 @@ import java.util.concurrent.TimeUnit;
 public class ApplicationManager {
     private final Properties properties;
     private String browser;
+    private String baseUrl;
     private WebDriver driver;
+    private CloseableHttpClient httpClient;
+    private ObjectMapper objectMapper;
+
     private Header header;
     private LoginPage loginPage;
     private RegistrationPage registrationPage;
 
+    private ApiHelper apiHelper;
 
-    public ApplicationManager(String browser) {
-        this.browser = browser;
+
+    public ApplicationManager() {
         properties = new Properties();
     }
 
     public void start() throws IOException {
         String target = System.getProperty("target", "general");
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
+        baseUrl=properties.getProperty("web.baseUrl");
     }
 
 
-    public void stop() {
-        if (driver != null) {
+    public void stop() throws IOException {
+        if (driver != null)
             driver.quit();
-        }
+        if (httpClient!=null)
+            httpClient.close();
     }
 
     public WebDriver getDriver() {
         if (driver == null) {
+            browser = System.getProperty("browser", BrowserType.CHROME);
             if (browser.equals(BrowserType.CHROME))
                 driver = new ChromeDriver();
             else if (browser.equals(BrowserType.FIREFOX))
@@ -57,21 +70,42 @@ public class ApplicationManager {
 
     public Header getHeader() {
         if (header == null)
-            header = new Header(getDriver(), properties.getProperty("web.baseUrl"));
+            header = new Header(getDriver(), baseUrl);
         return header;
     }
 
     public LoginPage getLoginPage() {
         if (loginPage == null)
-            loginPage = new LoginPage(driver);
+            loginPage = new LoginPage(getDriver());
         return loginPage;
     }
 
     public RegistrationPage getRegistrationPage() {
         if (registrationPage == null)
-            registrationPage = new RegistrationPage(driver);
+            registrationPage = new RegistrationPage(getDriver());
         return registrationPage;
     }
 
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public CloseableHttpClient getHttpClient() {
+        if (httpClient==null)
+            httpClient= HttpClients.custom().setRedirectStrategy(new LaxRedirectStrategy()).build();
+        return httpClient;
+    }
+
+    public ObjectMapper getObjectMapper() {
+        if(objectMapper==null)
+            objectMapper=new ObjectMapper();
+        return objectMapper;
+    }
+
+    public ApiHelper getApiHelper() {
+        if(apiHelper==null)
+            apiHelper=new ApiHelper(this);
+        return apiHelper;
+    }
 }
 

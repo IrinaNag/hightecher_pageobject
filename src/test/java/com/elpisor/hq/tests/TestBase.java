@@ -1,7 +1,6 @@
-package com.elpisor.hq.tests.ui_tests;
+package com.elpisor.hq.tests;
 
 import com.elpisor.hq.app.ApplicationManager;
-import org.openqa.selenium.remote.BrowserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterMethod;
@@ -12,13 +11,13 @@ import org.testng.annotations.BeforeSuite;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-public class UiTestBase {
+public class TestBase {
 
-    Logger logger = LoggerFactory.getLogger(UiTestBase.class);
+    Logger logger = LoggerFactory.getLogger(TestBase.class);
 
 
 
-    protected static final ApplicationManager app = new ApplicationManager(BrowserType.CHROME);
+    protected static final ApplicationManager app = new ApplicationManager();
 
     @BeforeSuite(alwaysRun = true)
     public void setUp() throws Exception {

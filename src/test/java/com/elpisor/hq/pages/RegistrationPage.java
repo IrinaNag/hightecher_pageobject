@@ -1,6 +1,6 @@
 package com.elpisor.hq.pages;
 
-import com.elpisor.hq.model.User;
+import com.elpisor.hq.model.UserUi;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -25,14 +25,14 @@ public class RegistrationPage extends Page {
         super(driver);
     }
 
-    public RegistrationPage fillRegistrationForm(User user) {
-        type(username, user.getUsername());
-        type(name, user.getName());
-        type(surname, user.getSurname());
-        type(email, user.getEmail());
-        type(phone, user.getPhone());
-        type(password, user.getPassword());
-        type(password_confirmation, user.getPassword_confirmation());
+    public RegistrationPage fillRegistrationForm(UserUi userUi) {
+        type(username, userUi.getUsername());
+        type(name, userUi.getName());
+        type(surname, userUi.getSurname());
+        type(email, userUi.getEmail());
+        type(phone, userUi.getPhone());
+        type(password, userUi.getPassword());
+        type(password_confirmation, userUi.getPassword_confirmation());
         click(body);
         return this;
     }

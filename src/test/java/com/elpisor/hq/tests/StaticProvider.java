@@ -1,7 +1,7 @@
 package com.elpisor.hq.tests;
 
-import com.elpisor.hq.model.User;
 import com.elpisor.hq.model.UserCreds;
+import com.elpisor.hq.model.UserUi;
 import org.testng.annotations.DataProvider;
 
 import java.io.BufferedReader;
@@ -28,61 +28,67 @@ public class StaticProvider {
 
     @DataProvider
     public static Iterator<Object[]> loginWithPositiveData() throws IOException {
-        return getUserCredsFromFile(RESOURCES_URL + LOGIN_WITH_POSITIVE_DATA_FILE);
+        return getDataFromFile(RESOURCES_URL + LOGIN_WITH_POSITIVE_DATA_FILE, UserCreds.class);
     }
 
     @DataProvider
     public static Iterator<Object[]> loginWithoutCreds() throws IOException {
-        return getUserCredsFromFile(RESOURCES_URL + LOGIN_WITHOUT_CREDS_FILE);
+        return getDataFromFile(RESOURCES_URL + LOGIN_WITHOUT_CREDS_FILE, UserCreds.class);
     }
 
     @DataProvider
     public static Iterator<Object[]> loginWithWrongEmail() throws IOException {
-        return getUserCredsFromFile(RESOURCES_URL + LOGIN_WITH_WRONG_EMAIL_FILE);
+        return getDataFromFile(RESOURCES_URL + LOGIN_WITH_WRONG_EMAIL_FILE, UserCreds.class);
     }
 
     @DataProvider
     public static Iterator<Object[]> registrationWithValidData() throws IOException {
-        return getUsersFromFile(RESOURCES_URL + REGISTRATION_WITH_VALID_DATA_FILE);
+        return getDataFromFile(RESOURCES_URL + REGISTRATION_WITH_VALID_DATA_FILE, UserUi.class);
     }
 
     @DataProvider
     public static Iterator<Object[]> registrationWithoutMandatoryFields() throws IOException {
-        return getUsersFromFile(RESOURCES_URL + REGISTRATION_WITHOUT_MANDATORY_FIELDS_FILE);
+        return getDataFromFile(RESOURCES_URL + REGISTRATION_WITHOUT_MANDATORY_FIELDS_FILE, UserUi.class);
     }
 
     @DataProvider
     public static Iterator<Object[]> registrationWithWrongEmail() throws IOException {
-        return getUsersFromFile(RESOURCES_URL + REGISTRATION_WITH_WRONG_EMAIL_FILE);
+        return getDataFromFile(RESOURCES_URL + REGISTRATION_WITH_WRONG_EMAIL_FILE, UserUi.class);
     }
 
     @DataProvider
     public static Iterator<Object[]> registrationWithWrongPassword() throws IOException {
-        return getUsersFromFile(RESOURCES_URL + REGISTRATION_WITH_WRONG_PASSWORD_FILE);
+        return getDataFromFile(RESOURCES_URL + REGISTRATION_WITH_WRONG_PASSWORD_FILE, UserUi.class);
     }
 
     @DataProvider
     public static Iterator<Object[]> registrationWithWrongPasswordConfirm() throws IOException {
-        return getUsersFromFile(RESOURCES_URL + REGISTRATION_WITH_WRONG_PASSWORD_CONFIRM_FILE);
+        return getDataFromFile(RESOURCES_URL + REGISTRATION_WITH_WRONG_PASSWORD_CONFIRM_FILE, UserUi.class);
     }
 
 
-    public static Iterator<Object[]> getUserCredsFromFile(String fileName) throws IOException {
+    public static Iterator<Object[]> getDataFromFile(String fileName, Class clazz) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            return reader.lines().map(line -> line.split(";"))
-                    .map(split -> new Object[]{new UserCreds(split[0].equals("null") ? null : split[0], split[1].equals("null") ? null : split[1])})
-                    .collect(Collectors.toList()).iterator();
+            return reader.lines()
+                    .map(line -> line.split(";"))
+                    .map(split -> checkNull(split))
+                    .map(split -> createObject(split, clazz))
+                    .collect(Collectors.toList())
+                    .iterator();
         }
     }
 
-    public static Iterator<Object[]> getUsersFromFile(String fileName) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            return reader.lines().map(line -> line.split(";"))
-                    .map(split -> new Object[]{new User(split[0].equals("null") ? null : split[0]
-                            , split[1].equals("null") ? null : split[1], split[2].equals("null") ? null : split[2]
-                            , split[3].equals("null") ? null : split[3], split[4].equals("null") ? null : split[4]
-                            , split[5].equals("null") ? null : split[5], split[6].equals("null") ? null : split[6])})
-                    .collect(Collectors.toList()).iterator();
-        }
+    private static String[] checkNull(String[] arr) {
+        for (String str : arr)
+            str = str.equals("null") ? null : str;
+        return arr;
+    }
+
+    private static <T> T[] createObject(String[] arr, Class clazz) {
+        if (clazz == UserUi.class)
+            return (T[]) new Object[]{new UserUi(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6])};
+        if (clazz == UserCreds.class)
+            return (T[]) new Object[]{new UserCreds(arr[0], arr[1])};
+        return null;
     }
 }
