@@ -3,10 +3,7 @@ package com.elpisor.hq.tests;
 import com.elpisor.hq.app.ApplicationManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.*;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;

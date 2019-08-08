@@ -1,6 +1,6 @@
 package com.elpisor.hq.pages;
 
-import com.elpisor.hq.model.UserUi;
+import com.elpisor.hq.model.ui_model.UserUi;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

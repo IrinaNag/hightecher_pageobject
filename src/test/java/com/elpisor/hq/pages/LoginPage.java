@@ -1,6 +1,6 @@
 package com.elpisor.hq.pages;
 
-import com.elpisor.hq.model.UserCreds;
+import com.elpisor.hq.model.ui_model.UserCreds;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

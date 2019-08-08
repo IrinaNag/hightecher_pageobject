@@ -1,4 +1,4 @@
-package com.elpisor.hq.model;
+package com.elpisor.hq.model.ui_model;
 
 import lombok.*;
 

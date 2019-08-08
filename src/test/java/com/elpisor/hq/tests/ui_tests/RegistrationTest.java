@@ -1,6 +1,6 @@
 package com.elpisor.hq.tests.ui_tests;
 
-import com.elpisor.hq.model.UserUi;
+import com.elpisor.hq.model.ui_model.UserUi;
 import com.elpisor.hq.pages.RegistrationPage;
 import com.elpisor.hq.tests.StaticProvider;
 import com.elpisor.hq.tests.TestBase;
@@ -23,8 +23,7 @@ public class RegistrationTest extends TestBase {
 
     @Test(dataProvider = "registrationWithValidData", dataProviderClass = StaticProvider.class)
     public void testRegistrationWithValidData(UserUi userUi) {
-        registrationPage.fillRegistrationForm(userUi);
-        List<String> errors = registrationPage.getListOfErrors();
+        List<String> errors = registrationPage.fillRegistrationForm(userUi).getListOfErrors();
 //        registrationPage.clickSubmit();
         assertTrue(errors.size() == 0);
         assertTrue(registrationPage.isSubmitActive());
@@ -32,8 +31,7 @@ public class RegistrationTest extends TestBase {
 
     @Test(dataProvider = "registrationWithoutMandatoryFields", dataProviderClass = StaticProvider.class)
     public void testRegistrationWithoutMandatoryFields(UserUi userUi) {
-        registrationPage.fillRegistrationForm(userUi);
-        List<String> errors = registrationPage.getListOfErrors();
+        List<String> errors = registrationPage.fillRegistrationForm(userUi).getListOfErrors();
         int errorsNumber = 0;
         if (userUi.getUsername() == null) {
             assertTrue(errors.contains("Enter username"));
@@ -57,8 +55,7 @@ public class RegistrationTest extends TestBase {
 
     @Test(dataProvider = "registrationWithWrongEmail", dataProviderClass = StaticProvider.class)
     public void testRegistrationWithWrongEmail(UserUi userUi) {
-        registrationPage.fillRegistrationForm(userUi);
-        List<String> errors = registrationPage.getListOfErrors();
+        List<String> errors = registrationPage.fillRegistrationForm(userUi).getListOfErrors();
         assertTrue(errors.size() == 1);
         assertTrue(errors.contains("Wrong email pattern"));
         assertFalse(registrationPage.isSubmitActive());
@@ -66,8 +63,7 @@ public class RegistrationTest extends TestBase {
 
     @Test(dataProvider = "registrationWithWrongPassword", dataProviderClass = StaticProvider.class)
     public void testRegistrationWithWrongPassword(UserUi userUi) {
-        registrationPage.fillRegistrationForm(userUi);
-        List<String> errors = registrationPage.getListOfErrors();
+        List<String> errors = registrationPage.fillRegistrationForm(userUi).getListOfErrors();
         assertTrue(errors.size() == 1);
         assertTrue(errors.contains("Password must at least 8 character length and must include at least one upper case letter, one down case letter, one digit and one symbol"));
         assertFalse(registrationPage.isSubmitActive());
@@ -75,8 +71,7 @@ public class RegistrationTest extends TestBase {
 
     @Test(dataProvider = "registrationWithWrongPasswordConfirm", dataProviderClass = StaticProvider.class)
     public void testRegistrationWithWrongPasswordConfirm(UserUi userUi) {
-        registrationPage.fillRegistrationForm(userUi);
-        List<String> errors = registrationPage.getListOfErrors();
+        List<String> errors = registrationPage.fillRegistrationForm(userUi).getListOfErrors();
         assertTrue(errors.size() == 1);
         assertTrue(errors.contains("Wrong confirmation"));
         assertFalse(registrationPage.isSubmitActive());

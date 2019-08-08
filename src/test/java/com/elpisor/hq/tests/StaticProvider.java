@@ -1,7 +1,7 @@
 package com.elpisor.hq.tests;
 
-import com.elpisor.hq.model.UserCreds;
-import com.elpisor.hq.model.UserUi;
+import com.elpisor.hq.model.ui_model.UserCreds;
+import com.elpisor.hq.model.ui_model.UserUi;
 import org.testng.annotations.DataProvider;
 
 import java.io.BufferedReader;
