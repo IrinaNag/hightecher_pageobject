@@ -11,6 +11,6 @@ import lombok.*;
 public class UserData {
     private String name;
     private String surname;
-    /*private String email;
-    private String phone;*/
+    private String email;
+    private String phone;
 }

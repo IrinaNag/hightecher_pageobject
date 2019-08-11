@@ -9,35 +9,51 @@ public class TestData {
 
     public static User createTestUserForGetUserProfile() {
         UserBuilder userBuilder = createUserBuilderWithMinFields();
-        String phone = "05" + RandomStringUtils.randomNumeric(8);
         User user = userBuilder
-                .phone(phone)
+                .phone(createValidPhone())
                 .build();
         return user;
     }
 
     public static User createTestUserForUpdateUserData() {
         UserBuilder userBuilder = createUserBuilderWithMinFields();
-        String phone = "05" + RandomStringUtils.randomNumeric(8);
-        String name = "Name" + System.currentTimeMillis();
-        String surname = "Surname" + System.currentTimeMillis();
         User user = userBuilder
-                .phone(phone)
-                .name(name)
-                .surname(surname)
+                .phone(createValidPhone())
+                .name(createValidName())
+                .surname(createValidSurname())
                 .build();
         return user;
     }
 
     private static UserBuilder createUserBuilderWithMinFields() {
-        String username = "User" + System.currentTimeMillis();
-        String email = "user" + System.currentTimeMillis() + "@domain.com";
-        String password = RandomStringUtils.randomNumeric(1) + RandomStringUtils.randomAlphabetic(6);
         return User.builder()
-                .username(username)
-                .email(email)
-                .password(password);
+                .username(createValidUsername())
+                .email(createValidEmail())
+                .password(createValidPassword());
     }
 
+    public static String createValidUsername() {
+        return "User" + System.currentTimeMillis();
+    }
+
+    public static String createValidEmail() {
+        return "user" + System.currentTimeMillis() + "@domain.com";
+    }
+
+    public static String createValidPassword() {
+        return RandomStringUtils.randomNumeric(1) + RandomStringUtils.randomAlphabetic(6);
+    }
+
+    public static String createValidPhone() {
+        return "05" + RandomStringUtils.randomNumeric(8);
+    }
+
+    public static String createValidName() {
+        return "Name" + System.currentTimeMillis();
+    }
+
+    public static String createValidSurname() {
+        return "Surname" + System.currentTimeMillis();
+    }
 
 }

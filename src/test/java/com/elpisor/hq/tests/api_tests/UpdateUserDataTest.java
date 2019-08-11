@@ -19,6 +19,7 @@ public class UpdateUserDataTest extends TestBase{
 
     User testUser;
     String token;
+    UserBy userBy;
 
     @BeforeClass
     public void preconditions() {
@@ -33,13 +34,18 @@ public class UpdateUserDataTest extends TestBase{
                 .returnSecureToken(true)
                 .build();
         token=app.getSessionController().login(userCreds);
+
+        userBy=UserBy
+                .builder()
+                .uid(testUser.getUid())
+                .build();
     }
 
 
     @Test
     public void testUpdateNameAndSurnameWithValidData() {
-        String name="Name"+System.currentTimeMillis();;
-        String surname="Surname"+System.currentTimeMillis();;
+        String name=TestData.createValidName();
+        String surname=TestData.createValidSurname();
         UserData testUserData=UserData
                 .builder()
                 .name(name)
@@ -49,13 +55,67 @@ public class UpdateUserDataTest extends TestBase{
                 .updateUserData(testUserData, token,UserDataResponse.class, Errors.NO_ERRORS).getUserData();
         assertThat(responseUserData,equalTo(testUserData));
 
-        UserBy userBy=UserBy
-                .builder()
-                .uid(testUser.getUid())
-                .build();
         User updateUser=app.getUserController()
                 .getUserBy(userBy, UserResponse.class,Errors.NO_ERRORS).getUser();
         updateUser.setPassword(testUser.getPassword());
+        testUser.setName(name);
+        testUser.setSurname(surname);
         assertThat(updateUser,equalTo(testUser));
+    }
+
+    @Test
+    public void testUpdateNameAndSurnameWithWrongNameLength() {
+
+    }
+
+    @Test
+    public void testUpdateNameAndSurnameWithWrongSurnameLength() {
+
+    }
+
+    @Test
+    public void testUpdateNameAndSurnameIfAccountDisabled() {
+
+    }
+
+    @Test
+    public void testUpdateEmailWithValidData() {
+        String email=TestData.createValidEmail();
+        UserData userData=UserData
+                .builder()
+                .email(email)
+                .build();
+        UserData responseUserData=app.getUserDataController()
+                .updateUserData(userData,token,UserDataResponse.class,Errors.NO_ERRORS).getUserData();
+        assertThat(responseUserData,equalTo(userData));
+
+        User updateUser=app.getUserController()
+                .getUserBy(userBy,UserResponse.class,Errors.NO_ERRORS).getUser();
+        updateUser.setPassword(testUser.getPassword());
+        testUser.setEmail(email);
+        assertThat(updateUser,equalTo(testUser));
+    }
+
+    @Test
+    public void testUpdateEmailWithWrongData() {
+
+    }
+    @Test
+    public void testUpdateEmailIfAccountDisabled() {
+
+    }
+
+    @Test
+    public void testUpdatePhoneWithValidData() {
+
+    }
+
+    @Test
+    public void testUpdatePhoneWithWrongData() {
+
+    }
+    @Test
+    public void testUpdatePhoneIfAccountDisabled() {
+
     }
 }
