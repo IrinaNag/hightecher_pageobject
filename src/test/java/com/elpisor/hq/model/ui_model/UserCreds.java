@@ -13,8 +13,4 @@ public class UserCreds {
     String password;
     Boolean returnSecureToken;
 
-    public UserCreds(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
 }

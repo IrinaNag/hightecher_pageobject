@@ -2,6 +2,7 @@ package com.elpisor.hq.app;
 
 import com.elpisor.hq.api_controllers.SessionController;
 import com.elpisor.hq.api_controllers.UserController;
+import com.elpisor.hq.api_controllers.UserDataController;
 import com.elpisor.hq.pages.Header;
 import com.elpisor.hq.pages.LoginPage;
 import com.elpisor.hq.pages.RegistrationPage;
@@ -27,14 +28,13 @@ public class ApplicationManager {
     private String browser;
     private String baseUrl;
     private WebDriver driver;
-//    private CloseableHttpClient httpClient;
-    private ObjectMapper objectMapper;
 
     private Header header;
     private LoginPage loginPage;
     private RegistrationPage registrationPage;
 
     private UserController userController;
+    private UserDataController userDataController;
     private SessionController sessionController;
 
 
@@ -99,21 +99,21 @@ public class ApplicationManager {
         return httpClient;
     }*/
 
-    public ObjectMapper getObjectMapper() {
-        if(objectMapper==null)
-            objectMapper=new ObjectMapper();
-        return objectMapper;
-    }
-
     public UserController getUserController() {
         if(userController ==null)
-            userController =new UserController(this);
+            userController =new UserController();
         return userController;
+    }
+
+    public UserDataController getUserDataController() {
+        if(userDataController==null)
+            userDataController=new UserDataController();
+        return userDataController;
     }
 
     public SessionController getSessionController() {
         if(sessionController==null)
-            sessionController=new SessionController(this);
+            sessionController=new SessionController();
         return sessionController;
     }
 }

@@ -88,7 +88,7 @@ public class StaticProvider {
         if (clazz == UserUi.class)
             return (T[]) new Object[]{new UserUi(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6])};
         if (clazz == UserCreds.class)
-            return (T[]) new Object[]{new UserCreds(arr[0], arr[1])};
+            return (T[]) new Object[]{UserCreds.builder().email(arr[0]).password(arr[1]).build()};
         return null;
     }
 }
