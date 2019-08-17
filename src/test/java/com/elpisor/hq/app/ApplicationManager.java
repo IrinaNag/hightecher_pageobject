@@ -1,16 +1,12 @@
 package com.elpisor.hq.app;
 
-import com.elpisor.hq.api_controllers.SessionController;
-import com.elpisor.hq.api_controllers.UserController;
-import com.elpisor.hq.api_controllers.UserDataController;
-import com.elpisor.hq.pages.Header;
-import com.elpisor.hq.pages.LoginPage;
-import com.elpisor.hq.pages.RegistrationPage;
-import com.fasterxml.jackson.databind.ObjectMapper;
-/*import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.client.LaxRedirectStrategy;*/
+import com.elpisor.hq.web.api.controllers.SessionController;
+import com.elpisor.hq.web.api.controllers.UserController;
+import com.elpisor.hq.web.api.controllers.UserDataController;
+import com.elpisor.hq.web.gui.pages.Header;
+import com.elpisor.hq.web.gui.pages.LoginPage;
+import com.elpisor.hq.web.gui.pages.RegistrationPage;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -34,8 +30,8 @@ public class ApplicationManager {
     private RegistrationPage registrationPage;
 
     private UserController userController;
-    private UserDataController userDataController;
     private SessionController sessionController;
+    private UserDataController userDataController;
 
 
     public ApplicationManager() {
@@ -45,19 +41,17 @@ public class ApplicationManager {
     public void start() throws IOException {
         String target = System.getProperty("target", "general");
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
-        baseUrl=properties.getProperty("web.baseUrl");
     }
 
 
-    public void stop() throws IOException {
+    public void stop(){
         if (driver != null)
             driver.quit();
-        /*if (httpClient!=null)
-            httpClient.close();*/
-    }
+     }
 
     public WebDriver getDriver() {
         if (driver == null) {
+            baseUrl=properties.getProperty("web.baseUrl");
             browser = System.getProperty("browser", BrowserType.CHROME);
             if (browser.equals(BrowserType.CHROME))
                 driver = new ChromeDriver();
@@ -89,17 +83,11 @@ public class ApplicationManager {
         return registrationPage;
     }
 
-    public String getBaseUrl() {
+/*    public String getBaseUrl() {
         return baseUrl;
-    }
-
-    /*public CloseableHttpClient getHttpClient() {
-        if (httpClient==null)
-            httpClient= HttpClients.custom().setRedirectStrategy(new LaxRedirectStrategy()).build();
-        return httpClient;
     }*/
 
-    public UserController getUserController() {
+     public UserController getUserController() {
         if(userController ==null)
             userController =new UserController();
         return userController;

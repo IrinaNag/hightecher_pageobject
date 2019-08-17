@@ -3,7 +3,7 @@
 <suite name="Suite1" verbose="1" >
     <test name="Test" >
         <classes>
-            <class name="com.elpisor.hq.tests.ui_tests.LoginTest" />
+            <class name="com.elpisor.hq.tests.gui.LoginTest" />
         </classes>
     </test>
 </suite>
